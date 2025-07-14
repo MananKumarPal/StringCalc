@@ -2,41 +2,46 @@ class StringCalculator {
   add(numbers) {
     if (numbers === "") return 0;
 
-    let delimiter = ",";
-    let numberString = numbers;
+    const { delimiter, numberString } = this.parseInput(numbers);
+    const numbersArray = this.extractNumbers(numberString, delimiter);
 
-    // Check for custom delimiter
+    this.validateNoNegatives(numbersArray);
+
+    return numbersArray.reduce((sum, num) => sum + num, 0);
+  }
+
+  parseInput(numbers) {
     if (numbers.startsWith("//")) {
-      const delimiterLine = numbers.split("\n")[0];
-      delimiter = delimiterLine.substring(2);
-      numberString = numbers.split("\n")[1];
+      const lines = numbers.split("\n");
+      return {
+        delimiter: lines[0].substring(2),
+        numberString: lines[1],
+      };
     }
 
-    // Replace newlines and custom delimiters with commas
+    return {
+      delimiter: ",",
+      numberString: numbers,
+    };
+  }
+
+  extractNumbers(numberString, delimiter) {
     const cleanNumbers = numberString
       .replace(/\n/g, ",")
       .replace(new RegExp(this.escapeRegex(delimiter), "g"), ",");
 
-    const numbersArray = cleanNumbers.split(",");
-    const negatives = [];
-    let sum = 0;
+    return cleanNumbers
+      .split(",")
+      .filter((num) => num !== "")
+      .map((num) => parseInt(num));
+  }
 
-    for (let num of numbersArray) {
-      if (num !== "") {
-        const number = parseInt(num);
-        if (number < 0) {
-          negatives.push(number);
-        } else {
-          sum += number;
-        }
-      }
-    }
+  validateNoNegatives(numbers) {
+    const negatives = numbers.filter((num) => num < 0);
 
     if (negatives.length > 0) {
       throw new Error(`negatives not allowed: ${negatives.join(",")}`);
     }
-
-    return sum;
   }
 
   escapeRegex(string) {

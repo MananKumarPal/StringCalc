@@ -1,7 +1,15 @@
 class StringCalculator {
   add(numbers) {
     if (numbers === "") return 0;
-    return parseInt(numbers);
+
+    const numbersArray = numbers.split(",");
+    let sum = 0;
+
+    for (let num of numbersArray) {
+      sum += parseInt(num);
+    }
+
+    return sum;
   }
 }
 

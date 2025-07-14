@@ -1,0 +1,13 @@
+{
+  "name": "string-calculator-tdd",
+  "version": "1.0.0",
+  "description": "TDD String Calculator Kata for Incubyte",
+  "main": "src/stringCalculator.js",
+  "scripts": {
+    "test": "jest",
+    "test:watch": "jest --watch"
+  },
+  "devDependencies": {
+    "jest": "^29.0.0"
+  }
+}

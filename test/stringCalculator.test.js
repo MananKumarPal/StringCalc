@@ -11,3 +11,4 @@ describe("StringCalculator", () => {
     expect(calculator.add("")).toBe(0);
   });
 });
+//
